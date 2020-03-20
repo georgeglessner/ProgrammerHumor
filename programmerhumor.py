@@ -54,14 +54,15 @@ def get_images():
         # lengthy statuses cut off, cannot compare accurately, get duplicates
         # do not add these statuses to list
         if len(status) < 100:
-            statuses.append(status)
+	    if len(status) == len(status.encode('utf-8')):
+                statuses.append(status)
         else:
             pass
 
     # find Reddit post to post to Twitter
     for submission in reddit.subreddit('programmerhumor').hot():
         if 'https://i.imgur.com/' in submission.url or 'https://i.redd.it' in submission.url:
-            if len(submission.title) < 100:
+            if len(submission.title) < 100 and len(submission.title) == len(submission.title.encode('utf-8'))::
                 if submission.title not in statuses:
                     img_url = submission.url
                     _, extension = os.path.splitext(img_url)
@@ -74,7 +75,7 @@ def get_images():
                         if file_size.st_size > MAX_FILESIZE:
                             pass
                         else:
-                            caption = submission.title
+                            caption = submission.title + " " + source
                             break
                 else:
                     print 'Tweet already exists in timeline'
@@ -106,7 +107,7 @@ def comment_source():
 def send_tweet(extension):
     api.update_with_media("images/image" + extension, caption)
     #favorite_tweets()
-    comment_source()
+    #comment_source()
    #get_images()
     sys.exit()
 
