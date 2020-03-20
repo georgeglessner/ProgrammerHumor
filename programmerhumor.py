@@ -62,7 +62,7 @@ def get_images():
     # find Reddit post to post to Twitter
     for submission in reddit.subreddit('programmerhumor').hot():
         if 'https://i.imgur.com/' in submission.url or 'https://i.redd.it' in submission.url:
-            if len(submission.title) < 100 and len(submission.title) == len(submission.title.encode('utf-8'))::
+            if len(submission.title) < 100 and len(submission.title) == len(submission.title.encode('utf-8')):
                 if submission.title not in statuses:
                     img_url = submission.url
                     _, extension = os.path.splitext(img_url)
